@@ -1,5 +1,6 @@
 const express=require('express')
 const mongoose=require('mongoose')
+const cors=require('cors')
 
 // connecct to mongo server 
 
@@ -14,11 +15,25 @@ mongoose.connect("mongodb://localhost:27017/demo-api")
 const productSchema=mongoose.Schema({
     name:{
         type:String,
-        unique:true
+        unique:true,
+        required:true
     },
-    price:Number,
-    quantity:Number,
-    color:String
+    price:{
+        type:Number,
+        required:true
+    },
+    quantity:{
+        type:Number,
+        required:true
+    },
+    color:{
+        type:String,
+        required:true
+    },
+    imageURL:{
+        type:String,
+        required:true
+    }
 })
 
 const productModel=mongoose.model('products',productSchema)
@@ -27,7 +42,9 @@ const productModel=mongoose.model('products',productSchema)
 
 const app=express()
 
+app.use(cors())
 app.use(express.json())
+
 
 
 app.post("/products",function(req,res){
